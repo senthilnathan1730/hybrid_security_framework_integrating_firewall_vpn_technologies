@@ -1,0 +1,2 @@
+ping -I wg_vpn 172.20.0.1
+ip addr show

@@ -1,0 +1,40 @@
+
+WireGuard Client side Config:
+------------------------------
+
+[Interface]
+PrivateKey = [CLIENT_PRIVATE_KEY]
+Address = 172.20.0.5/32	
+
+
+[Peer]
+PublicKey = FvYe28sPX1yvi+TBEwjGFLJPyQAwGvCOA4ycrRnqzh4=
+AllowedIPs = 172.20.0.1/16
+Endpoint = 192.168.122.185:51820
+PersistentKeepalive = 25
+
+-----------------------------------------------------------------------
+WireGuard Server side Config:
+-----------------------------
+
+[Interface]
+Address = 172.20.0.1/16
+ListenPort = 51820
+PrivateKey = [SERVER_PRIVATE_KEY]
+
+PostUp = sysctl -w net.ipv4.ip_forward=1; iptables -A FORWARD -i wg0 -j ACCEPT; iptables -A FORWARD -o wg0 -j ACCEPT
+PostDown = iptables -D FORWARD -i wg0 -j ACCEPT; iptables -D FORWARD -o wg0 -j ACCEPT
+
+
+[Peer]
+PublicKey = [CLIENT_PUBLIC_KEY]
+AllowedIPs = 172.20.0.2/32
+
+[Peer]
+PublicKey = [CLIENT_PUBLIC_KEY]
+AllowedIPs = 172.20.0.3/32
+
+[Peer]
+PublicKey = [CLIENT_PUBLIC_KEY]
+AllowedIPs = 172.20.0.4/32
+
